@@ -1,5 +1,5 @@
 {
-  "name": "digipixel",
+  "name": "digibytecanvas",
   "version": "1.0.0",
   "description": "A peer to peer canvas on top of the DigiByte blockchain",
   "main": "src/index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RenzoDD/digipixel.git"
+    "url": "git+https://github.com/RenzoDD/digibytecanvas.git"
   },
   "author": {
     "name": "Renzo Diaz",
@@ -18,9 +18,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/RenzoDD/digipixel/issues"
+    "url": "https://github.com/RenzoDD/digibytecanvas/issues"
   },
-  "homepage": "https://github.com/RenzoDD/digipixel#readme",
+  "homepage": "https://github.com/RenzoDD/digibytecanvas#readme",
   "dependencies": {
     "digibyte-js": "^1.3.3"
   },
@@ -29,11 +29,11 @@
     "electron-builder": "^22.14.13"
   },
   "build": {
-    "productName": "DigiPixel",
-    "appId": "org.digibyte.digipixel",
+    "productName": "DigiCanvas",
+    "appId": "org.digibyte.digibytecanvas",
     "nsis": {
-      "artifactName": "DigiPixel Setup ${version}.${ext}",
-      "uninstallDisplayName": "DigiPixel"
+      "artifactName": "DigiCanvas Setup ${version}.${ext}",
+      "uninstallDisplayName": "DigiCanvas"
     },
     "asar": true,
     "dmg": {

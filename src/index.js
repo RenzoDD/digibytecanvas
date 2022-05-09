@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron')
 const fs = require('fs')
 let myWindow = null;
 
-global.path = (process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Preferences' : process.env.HOME + "/.local/share")) + "/digipixel";
+global.path = (process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + '/Library/Preferences' : process.env.HOME + "/.local/share")) + "/digibytecanvas";
 if (!fs.existsSync(global.path))
   fs.mkdirSync(global.path);
 

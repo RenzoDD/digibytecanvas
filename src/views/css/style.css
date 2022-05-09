@@ -30,3 +30,11 @@ button,
 textarea,:focus {
     outline: none;
 }
+
+#imgScene {
+    cursor: crosshair;
+}
+
+.sync {
+    cursor: wait;
+}
