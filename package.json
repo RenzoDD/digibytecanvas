@@ -1,0 +1,68 @@
+{
+  "name": "digipixel",
+  "version": "1.0.0",
+  "description": "A peer to peer canvas on top of the DigiByte blockchain",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder build --dir",
+    "dist": "electron-builder build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RenzoDD/digipixel.git"
+  },
+  "author": {
+    "name": "Renzo Diaz",
+    "email": "renzo.diaz@remadi.net"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RenzoDD/digipixel/issues"
+  },
+  "homepage": "https://github.com/RenzoDD/digipixel#readme",
+  "dependencies": {
+    "digibyte-js": "^1.3.3"
+  },
+  "devDependencies": {
+    "electron": "^17.1.0",
+    "electron-builder": "^22.14.13"
+  },
+  "build": {
+    "productName": "DigiPixel",
+    "appId": "org.digibyte.digipixel",
+    "nsis": {
+      "artifactName": "DigiPixel Setup ${version}.${ext}",
+      "uninstallDisplayName": "DigiPixel"
+    },
+    "asar": true,
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "icon": "src/views/img/icon.icns"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "category": "Authentication",
+      "icon": "src/views/img/icon.icns"
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "src/views/img/icon.ico"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+body {
+    background-color: #002352;
+}
+.my-auto {
+    color: #FFFFFF;
+}
+.btn {
+    color: #FFFFFF;
+    border-color: #002352;
+}
+.btn:hover {
+    color: #FFFFFF;
+    border-color: #002352;
+}
+.btn-bg {
+    background: #1D3C66;
+}
+.btn-bg:hover {
+    background-color: #00326F;
+    cursor: pointer;
+}
+
+:not(input):not(textarea),:not(input):not(textarea)::after,:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+input,
+button,
+textarea,:focus {
+    outline: none;
+}
