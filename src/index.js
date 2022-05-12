@@ -14,8 +14,8 @@ if (!app.requestSingleInstanceLock()) {
 
 app.whenReady().then(() => {
   myWindow = new BrowserWindow({
-    width: 400,
-    height: 600,
+    width: 450,
+    height: 650,
     webPreferences: {
       //devTools: false,
       nodeIntegration: true,

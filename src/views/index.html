@@ -46,30 +46,67 @@
             <button id="btnSaveWallet" class="btn btn-bg">Save Wallet</button>
         </div>
     </div>
-    <div id="frmApp" class="frm my-auto d-none">
+    <div id="frmWallet" class="frm my-auto d-none">
         <div class="text-center mb-3">
-            <img src="img/icon.png" class="img-fluid" style="max-height: 100px;">
+            <img src="img/icon.png" class="img-fluid" style="max-height: 75px;">
         </div>
         <h1 class="mb-2 text-center">
             <i>DigiCanvas</i> Wallet
         </h1>
-        <div class="mb-3 text-center">
-            <button id="btnOpenCanvas" class="btn btn-bg">Go to canvas</button>
+        <div class="text-center">
+            Fund your wallet before painting!
         </div>
-    </div> 
+        <div class="text-center">
+            <img id="qr" class="img-fluid">
+            <input class="form-control-plaintext form-control-sm text-center" type="text" id="lblAddress" readonly style="color: #FFFFFF;">
+        </div>
+        <div class="mb-3 text-center">
+            <button id="btnOpenCanvas" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Return"><i class="bi bi-arrow-return-left"></i></button>
+            <button id="btnCopyAddress" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy address"><i class="bi bi-clipboard"></i></button>
+            <button id="btnOpenWidthraw" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Widthraw funds"><i class="bi bi-send-fill"></i></button>
+        </div>
+    </div>
+    <div id="frmWidthraw" class="frm my-auto d-none">
+        <div class="text-center mb-3">
+            <img src="img/icon.png" class="img-fluid" style="max-height: 75px;">
+        </div>
+        <h1 class="mb-2 text-center">
+            Widthraw Wallet Funds
+        </h1>
+        <div class="mb-4 text-center">
+            Send all your funds to an external address
+        </div>
+
+        <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Enter DigiByte address" id="txtWidthrawAddress">
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Enter Wallet Password" id="txtWidthrawPassword">
+        </div>
+
+        <div class="mb-3 text-center">
+            <button id="btnReturnWallet" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Return"><i class="bi bi-arrow-return-left"></i></button>
+            <button class="btn btn-bg" id="btnWidthraw" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Send"><i class="bi bi-send-fill"></i></button>
+        </div>
+    </div>
     <div id="frmCanvas" class="frm my-auto d-none">
+        <div class="text-center" style="height: 30px;">
+            <small id="lblMessage">
+
+            </small>
+        </div>
 
         <div class="mb-3">
             <div class="text-center">
-                <button id="btnUp" class="btn btn-sm btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Scroll up"><i class="bi bi-caret-up-fill"></i></button>
+                <button disabled id="btnUp" class="btn btn-sm btn-bg"><i class="bi bi-caret-up-fill"></i></button>
             </div>
             <div class="d-flex justify-content-center align-items-center">
-                <button id="btnLeft" class="btn btn-sm btn-bg" data-bs-toggle="tooltip" data-bs-placement="right" title="Scroll left"><i class="bi bi-caret-left-fill"></i></button>
-                <canvas id="imgScene" width="256" height="256"></canvas>
-                <button id="btnRight" class="btn btn-sm btn-bg" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll right"><i class="bi bi-caret-right-fill"></i></button>
+                <button disabled id="btnLeft" class="btn btn-sm btn-bg"><i class="bi bi-caret-left-fill"></i></button>
+                <canvas id="imgScene" width="256" height="256" style="border: #000000; cursor: wait;"></canvas>
+                <button id="btnRight" class="btn btn-sm btn-bg"><i class="bi bi-caret-right-fill"></i></button>
             </div>
             <div class="text-center">
-                <button id="btnDown" class="btn btn-sm btn-bg" data-bs-toggle="tooltip" title="Scroll down"><i class="bi bi-caret-down-fill"></i></button>
+                <button id="btnDown" class="btn btn-sm btn-bg"><i class="bi bi-caret-down-fill"></i></button>
             </div>
         </div>
 
@@ -95,20 +132,72 @@
             <button id="btnColor14" class="btn btn-bg" style="background-color: #CF6EE4;" onclick="ChangeColor(14)">&nbsp;</button>
             <button id="btnColor15" class="btn btn-bg" style="background-color: #820080;" onclick="ChangeColor(15)">&nbsp;</button>
         </div>
-        
+
         <div class="mb-3 text-center">
-            <button id="btnZoomIn" class="btn btn-bg" data-bs-toggle="tooltip" title="Zoom in"><i class="bi bi-zoom-in"></i></button>
-            <button id="btnZoomOut" class="btn btn-bg" data-bs-toggle="tooltip" title="Zoom out"><i class="bi bi-zoom-out"></i></button>
-            <button id="btnSave" class="btn btn-bg" data-bs-toggle="tooltip" title="Download canvas"><i class="bi bi-cloud-download"></i></button>
-            <button id="btnWallet" class="btn btn-bg" data-bs-toggle="tooltip" title="DigiByte wallet"><i class="bi bi-wallet2"></i></button>
-            <button id="btnSend" class="btn btn-bg" data-bs-toggle="tooltip" title="Submit changes"><i class="bi bi-send-fill"></i></button>
+            <button id="btnZoomIn" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Zoom in"><i class="bi bi-zoom-in"></i></button>
+            <button id="btnZoomOut" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Zoom out"><i class="bi bi-zoom-out"></i></button>
+            <button id="btnClear" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear changes"><i class="bi bi-hurricane"></i></button>
+
+            <button id="btnSave" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Download canvas"><i class="bi bi-cloud-download"></i></button>
+            <button id="btnWallet" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="DigiByte wallet"><i class="bi bi-wallet2"></i></button>
+            <button id="btnBroadcast" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Submit changes"><i class="bi bi-send-fill"></i></button>
         </div>
 
     </div>
+    <div id="frmBroadcast" class="frm my-auto d-none">
+        <div class="text-center mb-3">
+            <img src="img/icon.png" class="img-fluid" style="max-height: 100px;">
+        </div>
+        <h1 class="mb-2 text-center">
+            Submit changes
+        </h1>
+        <table class="table mb-3" style="color: #FFF">
+            <thead>
+                <tr>
+                    <th scope="col">Detail</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Your balance</td>
+                    <td id="brBlance"></td>
+                </tr>
+                <tr>
+                    <td>Pixels changed</td>
+                    <td id="brChanged"></td>
+                </tr>
+                <tr>
+                    <td>Tx fee</td>
+                    <td id="brFee">Ɗ -0.00001000</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total</td>
+                    <td id="brTotal"></td>
+                </tr>
+                <tr>
+                    <td>Change</td>
+                    <td id="brChange"></td>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="mb-3">
+            <input type="password" id="txtPassword" class="form-control" placeholder="Enter Wallet Password">
+        </div>
+
+        <div class="mb-3 text-center">
+            <button id="btnReturnCanvas" class="btn btn-bg" data-bs-toggle="tooltip" title="Return"><i class="bi bi-arrow-return-left"></i></button>
+            <button id="btnSend" class="btn btn-bg" data-bs-toggle="tooltip" title="Send TX"><i class="bi bi-send-fill"></i></button>
+        </div>
+    </div>
+
     <canvas id="imgCanvas" width="256" height="256" hidden></canvas>
     <canvas id="imgChanges" width="256" height="256" hidden></canvas>
 
     <script src="vendor/bootstrap.js"></script>
+    <script src="vendor/digi-qr.js"></script>
     <script src="js/app.js"></script>
     <script src="js/main.js"></script>
     <script>

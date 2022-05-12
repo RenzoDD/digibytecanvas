@@ -1,7 +1,5 @@
 body {
     background-color: #002352;
-}
-.my-auto {
     color: #FFFFFF;
 }
 .btn {
@@ -29,10 +27,6 @@ input,
 button,
 textarea,:focus {
     outline: none;
-}
-
-#imgScene {
-    cursor: crosshair;
 }
 
 .sync {

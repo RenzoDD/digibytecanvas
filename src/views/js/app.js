@@ -39,9 +39,10 @@ if (!fs.existsSync(global.path + "/block")) {
 
 if (fs.existsSync(global.path + "/wallet.dgb")) {
 	global.wallet = JSON.parse(fs.readFileSync(global.path + '/wallet.dgb'));
-	FormOpen(frmApp);
+
+	document.getElementById("qr").src = DigiQR.text(global.wallet.address, 150, 2);
+	lblAddress.value = global.wallet.address;
+	FormOpen(frmCanvas);
 } else {
 	FormOpen(frmStart);
 }
-
-
