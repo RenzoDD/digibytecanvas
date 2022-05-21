@@ -8,8 +8,8 @@ function FormOpen(frm) {
 }
 
 global.address = {
-	canvas: "dgb1qty025tcykkarzfx870q402vkvntxhpt63lt2wd",
-	cache: "dgb1qdz9slj6vtyn7nt4k89cdxla3jrf2dwlrzu5zlc"
+	canvas: "DQUtGkUSjDNyLoPU45meQYEQsrEs9W12gp",
+	cache: "DE2ppKnkCcaPH1SeVYHLfGwVYJzpwjxdbW"
 }
 
 global.api = {
@@ -21,9 +21,6 @@ global.api = {
 		"http://13.114.142.49/api/v2",
 		"https://dgbbook.guarda.co/api/v2",
 		"https://digibyte.atomicwallet.io/api/v2"
-	],
-	_ipfs: [
-		"https://ipfs.io/ipfs/"
 	]
 }
 
@@ -39,7 +36,7 @@ const logFile = (new Date()).toISOString().split('T')[0] + ".log";
 if (!fs.existsSync(global.path + "/logs/" + logFile))
 	fs.writeFileSync(global.path + "/logs/" + logFile, "");
 	
-//console.log = (data) => { fs.appendFileSync(global.path + "/logs/" + logFile, (new Date()).toISOString() + ": " + data.toString() + "\n"); }
+console.log = (data) => { fs.appendFileSync(global.path + "/logs/" + logFile, (new Date()).toISOString() + ": " + data.toString() + "\n"); }
 
 if (!fs.existsSync(global.path + "/block"))
 	fs.writeFileSync(global.path + "/block", "0");

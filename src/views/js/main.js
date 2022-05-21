@@ -159,7 +159,7 @@ else {
             var hash = hex.substring(0, 64);
             fs.writeFileSync(global.path + "/block", parseInt(hex.substring(64, hex.length), 16).toString());
 
-            image.src = "https://cloudflare-ipfs.com/ipfs/" + Base58.encode(Buffer.from("1220" + hash, 'hex'));
+            image.src = global.api.ipfs + Base58.encode(Buffer.from("1220" + hash, 'hex'));
         } else {
             cacheReady = true;
         }
@@ -182,7 +182,7 @@ async function RetreiveUTXO() {
     balance.satoshis = 0;
 
     if (balance.utxo == null)
-        return console.log("Can't UTXOs retreived");
+        return console.log("Can't retrieve UTXOs");
 
     for (var utxo of balance.utxo) {
         utxo.satoshis = parseInt(utxo.value);
@@ -191,7 +191,7 @@ async function RetreiveUTXO() {
         balance.satoshis += utxo.satoshis;
     }
 
-    console.log("UTXOs retreived");
+    console.log("UTXOs retrieved - " + balance.satoshis + " sats");
 }
 RetreiveUTXO();
 setInterval(RetreiveUTXO, syncTime)
@@ -239,7 +239,7 @@ btnReturnWallet.addEventListener('click', async e => {
 });
 btnWidthraw.addEventListener('click', async e => {
     if (balance.utxo == null) {
-        ShowMessage("Can't retreive wallet balance");
+        ShowMessage("Can't retrieve wallet balance");
         return FormOpen(frmCanvas);
     }
 
@@ -281,13 +281,12 @@ async function CacheCanvas() {
     fs.writeFileSync(global.path + "/cache.png", base64Data, 'base64');
 }
 async function SyncCanvas() {
-
     var data = await GET(global.api.blockchain + "/address/" + global.address.canvas + `?from=${stats.from}&to=${stats.to}&page=${stats.page}&details=txs`);
 
     if (data == null)
         return setTimeout(SyncCanvas, 100);
 
-    var txs = data.transactions;
+    var txs = data.transactions || [];
 
     stats.sync = false;
     imgScene.style.cursor = 'wait';
@@ -344,7 +343,7 @@ async function GetStats() {
     stats.to = chain.backend.blocks;
 
     var address = await GET(global.api.blockchain + '/address/' + global.address.canvas + `?from=${stats.from}&to=${stats.to}`);
-    stats.txTotal = address.txids.length;
+    stats.txTotal = address.txs;
     stats.page = Math.ceil(stats.txTotal / 1000);
     SyncCanvas();
 }
@@ -538,10 +537,10 @@ btnWallet.addEventListener('click', async e => {
 
 btnBroadcast.addEventListener('click', async e => {
     if (changes.length == 0)
-        return ShowMessage("Make some changes before submiting");
+        return ShowMessage("Make some changes before submitting");
 
     if (balance.utxo == null)
-        return ShowMessage("Can't retreive wallet balance");
+        return ShowMessage("Can't retrieve wallet balance");
 
     var funds = Unit.fromSatoshis(balance.satoshis).toDGB();
     var pixels = changes.length;
@@ -564,14 +563,13 @@ btnBroadcast.addEventListener('click', async e => {
 // frmBroadcast
 btnSend.addEventListener('click', async e => {
     if (balance.utxo == null) {
-        ShowMessage("Can't retreive wallet balance");
+        ShowMessage("Can't retrieve wallet balance");
         return FormOpen(frmCanvas);
     }
     var key = DecryptAES256(Buffer.from(global.wallet.wif, 'hex'), txtPassword.value);
 
     var txs = [];
     var { oldChanges, datas } = ChangesToDatas();
-    console.log(oldChanges, datas)
 
     var utxo = balance.utxo;
     var satoshis = balance.satoshis
@@ -595,6 +593,7 @@ btnSend.addEventListener('click', async e => {
         txs.push(transaction.serialize(true));
     }
 
+    changes = [];
     DrawCanvas();
     FormOpen(frmCanvas);
 
@@ -603,12 +602,14 @@ btnSend.addEventListener('click', async e => {
     while (txs.length != 0) {
         var tx = txs.shift()
         var data = await POST(global.api.blockchain + "/sendtx/", tx);
-        console.log(data);
+
         if (data == null)
             txs.unshift(tx);
         else if (data.error) {
+            console.log("Broadcast error - " + data.error);
             txs.unshift(tx);
         } else if (data.result) {
+            console.log("Broadcast success - " + data.result);
             oldChanges.shift();
             cant++;
         }
@@ -616,15 +617,8 @@ btnSend.addEventListener('click', async e => {
         await Sleep(300);
     }
 
-    changes = [];
+    ShowMessage(total + " transactions broadcasted, wait for network confirmations");
 
-    if (txs.length == 0) {
-        ShowMessage(total + " transactions breoadcasted, wait for network confirmations");
-    } else {
-        for (var i = 0; i < oldChanges.length; i++)
-            for (var j = 0; j < oldChanges[i].length; j++)
-                changes.push(oldChanges[i][j]);
-    }
 });
 btnReturnCanvas.addEventListener('click', async e => {
     FormOpen(frmCanvas)
