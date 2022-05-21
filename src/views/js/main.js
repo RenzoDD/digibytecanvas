@@ -186,6 +186,8 @@ async function RetreiveUTXO() {
 
     for (var utxo of balance.utxo) {
         utxo.satoshis = parseInt(utxo.value);
+        if (!utxo.scriptPubKey)
+            utxo.scriptPubKey = Script.fromAddress(global.wallet.address)
         balance.satoshis += utxo.satoshis;
     }
 
@@ -401,9 +403,33 @@ function DecodeChanges(hex) {
     }
 }
 
+function ChangesToDatas() {
+    var chngs = changes.filter(x => true);
+    var datas = [];
+    var oldChanges = [];
+    while (chngs.length != 0) {
+        var chgs = [];
+
+        while (true) {
+            chgs.push(chngs.shift());
+
+            if (EncodeChanges(chgs) == null) {
+                chngs.unshift(chgs.pop());
+                break;
+            }
+            if (chngs.length == 0)
+                break;
+        }
+
+        datas.push(EncodeChanges(chgs))
+        oldChanges.push(chgs)
+    }
+    return { oldChanges, datas };
+}
+
 
 let zoom = 3;
-let wx = 0, wy = 0;
+let wx = 3, wy = 3;
 function DrawCanvas() {
 
     chg.clearRect(0, 0, 256, 256);
@@ -519,12 +545,15 @@ btnBroadcast.addEventListener('click', async e => {
 
     var funds = Unit.fromSatoshis(balance.satoshis).toDGB();
     var pixels = changes.length;
-    var total = Unit.fromSatoshis(1000 + pixels * 100000000).toDGB();
-    var change = Unit.fromSatoshis(balance.satoshis - 1000 - pixels * 100000000).toDGB();
+    var fee = (ChangesToDatas().datas.length * 1000)
+    var total = Unit.fromSatoshis(fee + pixels * 100000000).toDGB();
+    var change = Unit.fromSatoshis(balance.satoshis - fee - pixels * 100000000).toDGB();
+    fee = Unit.fromSatoshis(fee).toDGB()
 
     brBlance.innerHTML = 'Ɗ ' + funds.toFixed(8);
     brChanged.innerHTML = 'Ɗ ' + pixels.toFixed(8);
     brTotal.innerHTML = 'Ɗ ' + total.toFixed(8);
+    brFee.innerHTML = 'Ɗ ' + fee.toFixed(8);
     brChange.innerHTML = 'Ɗ ' + change.toFixed(8);
 
     btnSend.disabled = change < 0;
@@ -541,37 +570,27 @@ btnSend.addEventListener('click', async e => {
     var key = DecryptAES256(Buffer.from(global.wallet.wif, 'hex'), txtPassword.value);
 
     var txs = [];
-    var oldChanges = [];
-    while (changes.length != 0) {
-        var chgs = [];
-        while (true) {
-            chgs.push(changes.shift());
+    var { oldChanges, datas } = ChangesToDatas();
+    console.log(oldChanges, datas)
 
-            if (EncodeChanges(chgs) == null) {
-                changes.unshift(chgs.pop());
-                break;
-            }
-            if (changes.length == 0)
-                break;
-        }
-
-        oldChanges.push(chgs.filter(x => true))
-
+    var utxo = balance.utxo;
+    var satoshis = balance.satoshis
+    for (var i = 0; i < datas.length; i++) {
         var transaction = new Transaction()
-            .from(balance.utxo)
-            .addData(EncodeChanges(chgs))
-            .to(global.address.canvas, chgs.length * 100000000)
+            .from(utxo)
+            .addData(datas[i])
+            .to(global.address.canvas, oldChanges[i].length * 100000000)
             .change(global.wallet.address)
             .fee(1000)
             .sign(key);
 
-        balance.utxo = [{
+        satoshis = satoshis - (oldChanges[i].length * 100000000 + 1000);
+        utxo = [{
             txid: transaction.id,
             vout: 2,
-            satoshis: balance.satoshis - (chgs.length * 100000000 + 1000),
+            satoshis,
             scriptPubKey: Script.fromAddress(global.wallet.address)
         }];
-        balance.satoshis = balance.satoshis - (chgs.length * 100000000 + 1000);
 
         txs.push(transaction.serialize(true));
     }
@@ -596,6 +615,8 @@ btnSend.addEventListener('click', async e => {
         ShowMessage(cant + "/" + total + " tx broadcasted");
         await Sleep(300);
     }
+
+    changes = [];
 
     if (txs.length == 0) {
         ShowMessage(total + " transactions breoadcasted, wait for network confirmations");
