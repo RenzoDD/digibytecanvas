@@ -27,7 +27,8 @@
             A peer to peer canvas on top of the DigiByte blockchain
         </div>
         <div class="mb-3 text-center">
-            <button id="btnCreateWallet" class="btn btn-bg">Create Wallet</button>
+            <button id="btnCreateWallet" class="btn btn-bg" hidden><i class="bi bi-wallet2"></i> Create Wallet</button>
+            <button id="btnShowCanvas" class="btn btn-bg" hidden><i class="bi bi-palette"></i> Go to canvas</button>
         </div>
     </div>
     <div id="frmCreateWallet" class="frm my-auto d-none">
@@ -43,7 +44,7 @@
             <input type="password" class="form-control" id="txtConfirmPassword" placeholder="Repeat your password">
         </div>
         <div class="mb-3 text-center">
-            <button id="btnSaveWallet" class="btn btn-bg">Save Wallet</button>
+            <button id="btnSaveWallet" class="btn btn-bg"><i class="bi bi-save"></i> Save wallet</button>
         </div>
     </div>
     <div id="frmWallet" class="frm my-auto d-none">
@@ -54,14 +55,15 @@
             <i>DigiCanvas</i> Wallet
         </h1>
         <div class="text-center">
-            Fund your wallet before painting!
+            Fund your wallet before painting! <br>
+            To paint one pixel cost one DigiByte
         </div>
         <div class="text-center">
             <img id="qr" class="img-fluid">
             <input class="form-control-plaintext form-control-sm text-center" type="text" id="lblAddress" readonly style="color: #FFFFFF;">
         </div>
         <div class="mb-3 text-center">
-            <button id="btnOpenCanvas" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Return"><i class="bi bi-arrow-return-left"></i></button>
+            <button id="btnOpenCanvas" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Go to canvas"><i class="bi bi-palette"></i></button>
             <button id="btnCopyAddress" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Copy address"><i class="bi bi-clipboard"></i></button>
             <button id="btnOpenWidthraw" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Widthraw funds"><i class="bi bi-send-fill"></i></button>
         </div>
@@ -78,10 +80,10 @@
         </div>
 
         <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Enter DigiByte address" id="txtWidthrawAddress">
+            <input type="text" class="form-control" placeholder="External DigiByte address" id="txtWidthrawAddress">
         </div>
         <div class="mb-3">
-            <input type="password" class="form-control" placeholder="Enter Wallet Password" id="txtWidthrawPassword">
+            <input type="password" class="form-control" placeholder="Enter wallet password" id="txtWidthrawPassword">
         </div>
 
         <div class="mb-3 text-center">
@@ -114,23 +116,23 @@
             Your current color is <i class="bi bi-droplet-half" id="paintColor"></i>
         </div>
         <div class="mb-3 text-center">
-            <button id="btnColor0" class="btn btn-bg" style="background-color: #FFFFFF;" onclick="ChangeColor(0)">&nbsp;</button>
-            <button id="btnColor1" class="btn btn-bg" style="background-color: #E4E4E4;" onclick="ChangeColor(1)">&nbsp;</button>
-            <button id="btnColor2" class="btn btn-bg" style="background-color: #888888;" onclick="ChangeColor(2)">&nbsp;</button>
-            <button id="btnColor3" class="btn btn-bg" style="background-color: #222222;" onclick="ChangeColor(3)">&nbsp;</button>
-            <button id="btnColor4" class="btn btn-bg" style="background-color: #FFA7D1;" onclick="ChangeColor(4)">&nbsp;</button>
-            <button id="btnColor5" class="btn btn-bg" style="background-color: #E50000;" onclick="ChangeColor(5)">&nbsp;</button>
-            <button id="btnColor6" class="btn btn-bg" style="background-color: #E59500;" onclick="ChangeColor(6)">&nbsp;</button>
-            <button id="btnColor7" class="btn btn-bg" style="background-color: #A06A42;" onclick="ChangeColor(7)">&nbsp;</button>
+            <button id="btnColor0" class="btn btn-bg" style="background-color: #FFFFFF;" onclick="ChangeColor(0)" data-bs-toggle="tooltip" title="White">&nbsp;</button>
+            <button id="btnColor1" class="btn btn-bg" style="background-color: #E4E4E4;" onclick="ChangeColor(1)" data-bs-toggle="tooltip" title="Light gray">&nbsp;</button>
+            <button id="btnColor2" class="btn btn-bg" style="background-color: #888888;" onclick="ChangeColor(2)" data-bs-toggle="tooltip" title="Gray">&nbsp;</button>
+            <button id="btnColor3" class="btn btn-bg" style="background-color: #222222;" onclick="ChangeColor(3)" data-bs-toggle="tooltip" title="Black">&nbsp;</button>
+            <button id="btnColor4" class="btn btn-bg" style="background-color: #FFA7D1;" onclick="ChangeColor(4)" data-bs-toggle="tooltip" title="Pink">&nbsp;</button>
+            <button id="btnColor5" class="btn btn-bg" style="background-color: #E50000;" onclick="ChangeColor(5)" data-bs-toggle="tooltip" title="Red">&nbsp;</button>
+            <button id="btnColor6" class="btn btn-bg" style="background-color: #E59500;" onclick="ChangeColor(6)" data-bs-toggle="tooltip" title="Orange">&nbsp;</button>
+            <button id="btnColor7" class="btn btn-bg" style="background-color: #A06A42;" onclick="ChangeColor(7)" data-bs-toggle="tooltip" title="Brown">&nbsp;</button>
             <br>
-            <button id="btnColor8" class="btn btn-bg" style="background-color: #E5D900;" onclick="ChangeColor(8)">&nbsp;</button>
-            <button id="btnColor9" class="btn btn-bg" style="background-color: #94E044;" onclick="ChangeColor(9)">&nbsp;</button>
-            <button id="btnColor10" class="btn btn-bg" style="background-color: #02BE01;" onclick="ChangeColor(10)">&nbsp;</button>
-            <button id="btnColor11" class="btn btn-bg" style="background-color: #00D3DD;" onclick="ChangeColor(11)">&nbsp;</button>
-            <button id="btnColor12" class="btn btn-bg" style="background-color: #0083C7;" onclick="ChangeColor(12)">&nbsp;</button>
-            <button id="btnColor13" class="btn btn-bg" style="background-color: #0000EA;" onclick="ChangeColor(13)">&nbsp;</button>
-            <button id="btnColor14" class="btn btn-bg" style="background-color: #CF6EE4;" onclick="ChangeColor(14)">&nbsp;</button>
-            <button id="btnColor15" class="btn btn-bg" style="background-color: #820080;" onclick="ChangeColor(15)">&nbsp;</button>
+            <button id="btnColor8" class="btn btn-bg" style="background-color: #E5D900;" onclick="ChangeColor(8)" data-bs-toggle="tooltip" title="Yellow">&nbsp;</button>
+            <button id="btnColor9" class="btn btn-bg" style="background-color: #94E044;" onclick="ChangeColor(9)" data-bs-toggle="tooltip" title="Green">&nbsp;</button>
+            <button id="btnColor10" class="btn btn-bg" style="background-color: #02BE01;" onclick="ChangeColor(10)" data-bs-toggle="tooltip" title="Dark green">&nbsp;</button>
+            <button id="btnColor11" class="btn btn-bg" style="background-color: #00D3DD;" onclick="ChangeColor(11)" data-bs-toggle="tooltip" title="Sky blue">&nbsp;</button>
+            <button id="btnColor12" class="btn btn-bg" style="background-color: #0083C7;" onclick="ChangeColor(12)" data-bs-toggle="tooltip" title="Light blue">&nbsp;</button>
+            <button id="btnColor13" class="btn btn-bg" style="background-color: #0000EA;" onclick="ChangeColor(13)" data-bs-toggle="tooltip" title="Blue">&nbsp;</button>
+            <button id="btnColor14" class="btn btn-bg" style="background-color: #CF6EE4;" onclick="ChangeColor(14)" data-bs-toggle="tooltip" title="Violet">&nbsp;</button>
+            <button id="btnColor15" class="btn btn-bg" style="background-color: #820080;" onclick="ChangeColor(15)" data-bs-toggle="tooltip" title="Purple">&nbsp;</button>
         </div>
 
         <div class="mb-3 text-center">
@@ -138,7 +140,6 @@
             <button id="btnZoomOut" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Zoom out"><i class="bi bi-zoom-out"></i></button>
             <button id="btnClear" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear changes"><i class="bi bi-hurricane"></i></button>
 
-            <button id="btnSave" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Download canvas"><i class="bi bi-cloud-download"></i></button>
             <button id="btnWallet" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="DigiByte wallet"><i class="bi bi-wallet2"></i></button>
             <button id="btnBroadcast" class="btn btn-bg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Submit changes"><i class="bi bi-send-fill"></i></button>
         </div>
@@ -188,7 +189,7 @@
         </div>
 
         <div class="mb-3 text-center">
-            <button id="btnReturnCanvas" class="btn btn-bg" data-bs-toggle="tooltip" title="Return"><i class="bi bi-arrow-return-left"></i></button>
+            <button id="btnReturnCanvas" class="btn btn-bg" data-bs-toggle="tooltip" title="Go to canvas"><i class="bi bi-palette"></i></button>
             <button id="btnSend" class="btn btn-bg" data-bs-toggle="tooltip" title="Send TX"><i class="bi bi-send-fill"></i></button>
         </div>
     </div>
@@ -203,8 +204,10 @@
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+            return new bootstrap.Tooltip(tooltipTriggerEl, {
+                trigger: 'hover'
+            })
+        });
     </script>
 </body>
 
