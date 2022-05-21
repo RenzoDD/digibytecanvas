@@ -6,7 +6,8 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder build --dir",
-    "dist": "electron-builder build"
+    "dist": "electron-builder build",
+    "cache": "node src/cache.js"
   },
   "repository": {
     "type": "git",
