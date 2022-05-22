@@ -17,14 +17,14 @@ app.whenReady().then(() => {
     width: 450,
     height: 650,
     webPreferences: {
-      //devTools: false,
+      devTools: false,
       nodeIntegration: true,
       contextIsolation: false
     },
     icon: __dirname + "\\views\\img\\icon.png",
     autoHideMenuBar: true,
-    //maximizable: false,
-    //resizable: false,
+    maximizable: false,
+    resizable: false,
     show: false
   })
   myWindow.setAlwaysOnTop(true, 'screen');
